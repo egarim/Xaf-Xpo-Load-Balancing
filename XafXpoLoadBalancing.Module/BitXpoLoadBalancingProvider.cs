@@ -17,18 +17,22 @@ namespace XafXpoLoadBalancing.Module
         public override IDataStore AcquireReadProvider()
         {
             IDataStore dataStore = base.AcquireReadProvider();
-            DevExpress.Xpo.DB.ConnectionProviderSql RealDataStore = (DevExpress.Xpo.DB.ConnectionProviderSql)dataStore;
-
-            System.Diagnostics.Debug.WriteLine("AcquireReadProvider Data from connection:" + RealDataStore.ConnectionString.ToString().Split(';').FirstOrDefault(cs => cs.StartsWith("Initial Catalog=")).Replace("Initial Catalog=",""));
+            DataStoreDiagnostics(dataStore);
             return dataStore;
             // your code goes here
         }
+
+        private static void DataStoreDiagnostics(IDataStore dataStore, [System.Runtime.CompilerServices.CallerMemberName] string MethodName = "")
+        {
+            DevExpress.Xpo.DB.ConnectionProviderSql RealDataStore = (DevExpress.Xpo.DB.ConnectionProviderSql)dataStore;
+            
+            System.Diagnostics.Debug.WriteLine($"{MethodName} Data from connection:" + RealDataStore.ConnectionString.ToString().Split(';').FirstOrDefault(cs => cs.StartsWith("Initial Catalog=")).Replace("Initial Catalog=", ""));
+        }
+
         public override IDataStore AcquireChangeProvider()
         {
             IDataStore dataStore = base.AcquireChangeProvider();
-            DevExpress.Xpo.DB.ConnectionProviderSql RealDataStore = (DevExpress.Xpo.DB.ConnectionProviderSql)dataStore;
-
-            System.Diagnostics.Debug.WriteLine("AcquireChangeProvider Data from connection:" + RealDataStore.ConnectionString.ToString().Split(';').FirstOrDefault(cs => cs.StartsWith("Initial Catalog=")).Replace("Initial Catalog=", ""));
+            DataStoreDiagnostics(dataStore);
             return dataStore;
 
 
