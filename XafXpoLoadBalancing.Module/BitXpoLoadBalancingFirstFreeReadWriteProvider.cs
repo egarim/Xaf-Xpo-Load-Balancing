@@ -1,16 +1,15 @@
 ﻿using DevExpress.Xpo.DB;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XafXpoLoadBalancing.Module
 {
-   
-    public class BitXpoLoadBalancingProvider : DataStoreForkMultipleReadersSingleWriter
+    /// <summary>
+    /// This provider will write on any of the free data store and will read from any of the free datastore
+    /// </summary>
+    public class BitXpoLoadBalancingFirstFreeReadWriteProvider : DataStoreFork
     {
-        public BitXpoLoadBalancingProvider(IDataStore changesProvider, params IDataStore[] readProviders) : base(changesProvider, readProviders)
+        public BitXpoLoadBalancingFirstFreeReadWriteProvider(IDataStore changesProvider, params IDataStore[] readProviders) : base(changesProvider, readProviders)
         {
         }
 
@@ -25,7 +24,7 @@ namespace XafXpoLoadBalancing.Module
         private static void DataStoreDiagnostics(IDataStore dataStore, [System.Runtime.CompilerServices.CallerMemberName] string MethodName = "")
         {
             DevExpress.Xpo.DB.ConnectionProviderSql RealDataStore = (DevExpress.Xpo.DB.ConnectionProviderSql)dataStore;
-            
+
             System.Diagnostics.Debug.WriteLine($"{MethodName} Data from connection:" + RealDataStore.ConnectionString.ToString().Split(';').FirstOrDefault(cs => cs.StartsWith("Initial Catalog=")).Replace("Initial Catalog=", ""));
         }
 
@@ -34,10 +33,6 @@ namespace XafXpoLoadBalancing.Module
             IDataStore dataStore = base.AcquireChangeProvider();
             DataStoreDiagnostics(dataStore);
             return dataStore;
-
-
-            
         }
-
     }
 }

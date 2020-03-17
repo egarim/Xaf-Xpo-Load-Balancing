@@ -84,7 +84,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitXpoLoadBalancingProvider.cs" />
+    <Compile Include="BitXpoLoadBalancingFirstFreeReadWriteProvider.cs" />
+    <Compile Include="BitXpoLoadBalancingMultipleReadSingleWriteProvider.cs" />
     <Compile Include="BusinessObjects\Customer.cs" />
     <Compile Include="XpoLoadBalancingProvider.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />

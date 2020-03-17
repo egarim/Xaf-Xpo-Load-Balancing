@@ -19,7 +19,7 @@ namespace XafXpoLoadBalancing.Module
             _mainDatabase = XpoDefault.GetConnectionProvider(mainConnectionString, AutoCreateOption.None);
             IDataStore replica1 = XpoDefault.GetConnectionProvider(replica1ConnectionString, AutoCreateOption.None);
             IDataStore replica2 = XpoDefault.GetConnectionProvider(replica2ConnectionString, AutoCreateOption.None);
-            _appDataStore = new BitXpoLoadBalancingProvider(_mainDatabase, replica1, replica2);
+            _appDataStore = new BitXpoLoadBalancingMultipleReadSingleWriteProvider(_mainDatabase, replica1, replica2);
         }
 
         readonly string _connectionString;
